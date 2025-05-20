@@ -19,7 +19,7 @@ typedef struct Location
 {
     LocationType type; // Tipo de localización
     LocationData place;
-    
+
 } Location;
 
 typedef struct Location *LocationPtr;
