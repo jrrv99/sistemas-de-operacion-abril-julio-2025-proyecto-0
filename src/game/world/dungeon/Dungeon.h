@@ -20,10 +20,6 @@ typedef struct Dungeon
 
 typedef struct Dungeon *DungeonPtr;
 
-static const char *DEFAULT_DUNGEON_TYPES[] = {
-    "Mazmorras", "Cueva", "Ruinas", "Templo", "Fortaleza", "Castillo", "Cripta", "Palacio", "Gruta", "Catacumbas", "Mina", "Torre", "Santuario", "Caverna"};
-
-static const char *DEFAULT_DUNGEON_NAMES[] = {
-    "Agua", "Tierra", "Fuego", "Aire", "Bosque", "Sombra", "Espíritu", "Luz"};
+DungeonPtr create_dungeon(int id, int saltForName);
 
 #endif // DUNGEON_H

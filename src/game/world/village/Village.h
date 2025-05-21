@@ -21,10 +21,7 @@ typedef struct Village
 
 typedef struct Village *VillagePtr;
 
-static const char *DEFAULT_VILLAGE_TYPES[] = {
-    "Aldea", "Villa", "Pueblo", "Bosque", "Pobrado", "Dominio", "Ciudad"};
-
-static const char *DEFAULT_VILLAGE_NAMES[] = {
-    "Ordon", "Kakariko", "Hateno", "Lurelin", "Goron", "Zora", "Gerudo", "Rito"};
+VillagePtr create_village(int id, bool isParallelWorld, VillagePtr counterpart, VillagePtr previous, VillagePtr next, int numOfVillages);
+VillagePtr create_village_list(int numOfVillages, bool isParallelWorld, VillagePtr normalListHead);
 
 #endif // VILLAGE_H
