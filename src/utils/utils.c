@@ -70,7 +70,7 @@ int random_int(int min, int max)
 char *generateName(
     const char **typeArray, int typeCount,
     const char **nameArray, int nameCount,
-    int index)
+    int salt)
 {
     assert(typeCount > 0 && nameCount > 0 && "Arrays cannot be empty");
 
@@ -78,13 +78,13 @@ char *generateName(
     const char *type = typeArray[random_int(0, typeCount - 1)];
 
     // Determinar cuántos elementos vamos a combinar (sin tope artificial)
-    int combinationSize = 1 + (index / nameCount);
+    int combinationSize = 1 + (salt / nameCount);
 
     // Calcular el tamaño necesario
     int estimatedLen = strlen(type) + strlen(" de ") + 1;
     for (int i = 0; i < combinationSize; i++)
     {
-        const char *element = nameArray[(index + i) % nameCount];
+        const char *element = nameArray[(salt + i) % nameCount];
         estimatedLen += strlen(element) + 1; // +1 por '-' o '\0'
     }
 
@@ -96,27 +96,16 @@ char *generateName(
         exit(EXIT_FAILURE);
     }
 
-    // construir partes: "Fire-Water-Earth"
-    char *elementsPart = malloc(estimatedLen);
-    if (!elementsPart)
-    {
-        free(name);
-        perror("Error: failed to allocate memory for elements");
-        exit(EXIT_FAILURE);
-    }
+    snprintf(name, estimatedLen, "%s de ", type);
 
-    elementsPart[0] = '\0';
+    // agregar partes: "Fuego-Agua-..." para formar el nombre completo: "Espada de Fuego-Agua-..."
     for (int i = 0; i < combinationSize; i++)
     {
-        const char *element = nameArray[(index + i) % nameCount];
-        strcat(elementsPart, element);
+        const char *element = nameArray[(salt + i) % nameCount];
+        strcat(name, element);
         if (i < combinationSize - 1)
-            strcat(elementsPart, "-");
+            strcat(name, "-");
     }
 
-    // Formar nombre completo: "Espada de Fuego-Agua"
-    snprintf(name, estimatedLen, "%s de %s", type, elementsPart);
-
-    free(elementsPart);
     return name;
 }
