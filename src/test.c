@@ -6,13 +6,10 @@
 #include "utils/utils.h"
 #include "game/world/dungeon/Dungeon.h"
 #include "game/world/village/Village.h"
+#include "game/world/items/Item.h"
 
-void print_world_map()
+void print_world_map(VillagePtr normalHead, VillagePtr parallelHead)
 {
-    int numOfVillages = 10; // Number of villages to create
-
-    VillagePtr normalHead = create_village_list(numOfVillages, false, NULL);
-    VillagePtr parallelHead = create_village_list(numOfVillages, true, normalHead);
 
     VillagePtr n = normalHead;
     VillagePtr p = parallelHead;
@@ -70,12 +67,56 @@ void test_village_travel(VillagePtr start)
     printf("🏁 Fin del recorrido\n");
 }
 
+void test_item_lists(ItemPtr itemsList)
+{
+    // ItemPtr parallelList = create_item_list(numOfItems, true);
+
+    // Print normal world items
+    printf("=== Normal World Items ===\n");
+    ItemPtr n = itemsList;
+    while (n != NULL)
+    {
+        printf("Item ID: %d, Name: %s\n", n->id, n->name); // Ajusta según los campos de tu struct Item
+        n = n->next;
+    }
+
+    // Print parallel world items
+    // printf("\n=== Parallel World Items ===\n");
+    // ItemPtr p = parallelList;
+    // while (p != NULL)
+    // {
+    //     printf("Item ID: %d, Name: %s\n", p->id, p->name); // Ajusta según los campos de tu struct Item
+    //     p = p->next;
+    // }
+
+    // Liberar memoria
+}
+
 int main()
 {
     srand(time(NULL)); // Inicializa aleatoriedad solo una vez
 
+
+    int numOfVillages = 2; // Number of items to create
+    VillagePtr normalHead = create_village_list(numOfVillages, false, NULL);
+    VillagePtr parallelHead = create_village_list(numOfVillages, true, normalHead);
+
+    ItemPtr itemsList = create_item_list(numOfVillages, false);
+    ItemPtr parallelItems = create_item_list(numOfVillages, true);
+    print_world_map(normalHead, parallelHead);
+
+    assign_items(normalHead, itemsList);
+    printf("\n");
+    assign_items(parallelHead, parallelItems);
+
+    printf("\n");
+
     // test_village_travel(upperList);
-    print_world_map();
+    test_item_lists(itemsList);
+    printf("\n");
+    test_item_lists(parallelItems);
+
+
 
     return 0;
 }

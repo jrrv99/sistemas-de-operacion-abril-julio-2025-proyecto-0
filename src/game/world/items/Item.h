@@ -21,5 +21,6 @@ typedef struct Item *ItemPtr;
 
 ItemPtr create_item(int id, int numOfItems);
 ItemPtr create_item_list(int numOfItems, bool isParallelWorld);
+void assign_items(VillagePtr villages, ItemPtr items);
 
 #endif // ITEM_H
