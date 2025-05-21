@@ -9,6 +9,7 @@ struct Item;
 
 typedef struct Village
 {
+    int id; // ID de la aldea
     char name[50];
     struct Dungeon *associatedDungeon;
     struct Item *hiddenItem;     // Ítem oculto en esta aldea (puede ser NULL)
@@ -17,6 +18,8 @@ typedef struct Village
     struct Village *previous;
     struct Village *next;
 } Village;
+
+typedef struct Village *VillagePtr;
 
 static const char *DEFAULT_VILLAGE_TYPES[] = {
     "Aldea", "Villa", "Pueblo", "Bosque", "Pobrado", "Dominio", "Ciudad"};

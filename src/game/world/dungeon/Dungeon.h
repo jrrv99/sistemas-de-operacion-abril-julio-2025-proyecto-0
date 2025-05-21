@@ -9,6 +9,7 @@ struct Village;
 
 typedef struct Dungeon
 {
+    int id; // ID de la mazmora
     char name[50];
     bool defeated;
     struct Item *requiredItem;         // Ítem necesario para derrotar
@@ -16,6 +17,8 @@ typedef struct Dungeon
     struct Village *associatedVillage; // Aldea asociada a esta mazmorra
     struct Dungeon *next;
 } Dungeon;
+
+typedef struct Dungeon *DungeonPtr;
 
 static const char *DEFAULT_DUNGEON_TYPES[] = {
     "Mazmorras", "Cueva", "Ruinas", "Templo", "Fortaleza", "Castillo", "Cripta", "Palacio", "Gruta", "Catacumbas", "Mina", "Torre", "Santuario", "Caverna"};
