@@ -19,10 +19,7 @@ typedef struct Item
 
 typedef struct Item *ItemPtr;
 
-static const char *DEFAULT_ITEM_TYPES[] = {
-    "Espada", "Escudo", "Arco", "Bomba", "Gancho", "Boomerang", "Flauta", "Martillo"};
-
-static const char *DEFAULT_ITEM_NAMES[] = {
-    "Maestra", "Hyliano", "Luz", "Agua", "Ganondorf", "Fuego", "Vientos", "Dioses", "Espíritu", "Sombra", "Fuego", "Hielo", "Tierra", "Aire", "Rayo"};
+ItemPtr create_item(int id, int numOfItems);
+ItemPtr create_item_list(int numOfItems, bool isParallelWorld);
 
 #endif // ITEM_H
