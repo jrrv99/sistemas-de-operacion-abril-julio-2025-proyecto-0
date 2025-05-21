@@ -18,4 +18,10 @@ typedef struct Village
     struct Village *next;
 } Village;
 
+static const char *DEFAULT_VILLAGE_TYPES[] = {
+    "Aldea", "Villa", "Pueblo", "Bosque", "Pobrado", "Dominio", "Ciudad"};
+
+static const char *DEFAULT_VILLAGE_NAMES[] = {
+    "Ordon", "Kakariko", "Hateno", "Lurelin", "Goron", "Zora", "Gerudo", "Rito"};
+
 #endif // VILLAGE_H

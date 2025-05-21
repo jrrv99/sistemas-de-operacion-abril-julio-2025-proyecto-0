@@ -16,4 +16,10 @@ typedef struct Item
     struct Item *next;
 } Item;
 
+static const char *DEFAULT_ITEM_TYPES[] = {
+    "Espada", "Escudo", "Arco", "Bomba", "Gancho", "Boomerang", "Flauta", "Martillo"};
+
+static const char *DEFAULT_ITEM_NAMES[] = {
+    "Maestra", "Hyliano", "Luz", "Agua", "Ganondorf", "Fuego", "Vientos", "Dioses", "Espíritu", "Sombra", "Fuego", "Hielo", "Tierra", "Aire", "Rayo"};
+
 #endif // ITEM_H
