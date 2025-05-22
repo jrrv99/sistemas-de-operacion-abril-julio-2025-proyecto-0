@@ -105,13 +105,13 @@ void shop_menu(GameStatePtr game)
             return;
         }
 
-        if (game->player->lives >= INIT_LIVES)
+        if (game->player->lives >= game->player->maxLives)
         {
             printf("Tienes mas de %d vidas. No necesitas recuperar vidas\n", INIT_LIVES);
             return;
         }
 
-        game->player->lives = INIT_LIVES;
+        game->player->lives = game->player->maxLives;
         game->player->money -= 5;
         printf("¡Vida recuperada!\n");
 
@@ -145,15 +145,16 @@ void shop_menu(GameStatePtr game)
             return;
         }
 
-        if (game->player->lives >= MAX_LIVES)
+        if (game->player->maxLives >= MAX_LIVES)
         {
             printf("Ya has alcanzado el máximo de vidas posible.\n");
             return;
         }
 
-        game->player->lives++;
+        game->player->maxLives++;
+        game->player->lives = game->player->maxLives;
         game->player->money -= 100;
-        printf("¡Vida aumentada a %d!\n", game->player->lives);
+        printf("¡Vida aumentada a %d!\n", game->player->maxLives);
 
         break;
     case 0:
@@ -235,7 +236,7 @@ void play()
 
         // Mostrar información del jugador
         printf("Vidas: %d/%d | Dinero: $%d\n",
-               game->player->lives, game->player->lives, game->player->money);
+               game->player->lives, game->player->maxLives, game->player->money);
 
         // Mostrar información del mundo
         if (game->upperWorld->isParallel)

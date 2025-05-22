@@ -13,6 +13,7 @@ typedef struct Player
 {
     int lives;
     int money;
+    int maxLives;
     bool canTravelBetweenWorlds;
     struct Village *currentLocation;
 } Player;

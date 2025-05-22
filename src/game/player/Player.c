@@ -16,6 +16,7 @@ PlayerPtr createPlayer(VillagePtr currentVillage)
     
     player->lives = INIT_LIVES;
     player->money = 0;
+    player->maxLives = INIT_LIVES;
     player->canTravelBetweenWorlds = false;
     player->currentLocation = currentVillage; // Initialize to NULL or a default location
     
