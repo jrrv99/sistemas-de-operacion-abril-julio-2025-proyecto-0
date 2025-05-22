@@ -15,6 +15,7 @@ typedef struct Player
     int money;
     int maxLives;
     bool canTravelBetweenWorlds;
+    bool inDungeon;
     struct Village *currentLocation;
 } Player;
 

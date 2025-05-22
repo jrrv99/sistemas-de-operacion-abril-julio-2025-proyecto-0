@@ -18,6 +18,7 @@ PlayerPtr createPlayer(VillagePtr currentVillage)
     player->money = 0;
     player->maxLives = INIT_LIVES;
     player->canTravelBetweenWorlds = false;
+    player->inDungeon = false;
     player->currentLocation = currentVillage; // Initialize to NULL or a default location
     
     return player;

@@ -109,13 +109,14 @@ bool attack_dungeon(GameStatePtr game, DungeonPtr dungeon)
         game->upperWorld->defeatedDungeons >= game->villagesToDefeatToUnlock)
     {
         printf("\n¡Has derrotado suficientes mazmorras para desbloquear el mundo paralelo!\n");
+        game->player->inDungeon = false;
         game->parallelWorld = createWorld(game->upperWorld->numOfVillages, true, game->upperWorld);
         game->parallelWorldUnlocked = true;
 
         // Transportar al jugador al mundo paralelo
         game->player->currentLocation = game->parallelWorld->villages;
         printf("Te transportas al mundo paralelo...\n");
-        return true;
+        return false;
     }
 
     // Verificar si es la primera mazmorra del mundo paralelo

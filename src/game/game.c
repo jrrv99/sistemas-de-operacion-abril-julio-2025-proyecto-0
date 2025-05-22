@@ -206,7 +206,6 @@ void play()
     pause("Presiona Enter para continuar...");
 
     bool gameOver = false;
-    bool inDungeon = false;
 
     while (!gameOver)
     {
@@ -221,17 +220,16 @@ void play()
         }
 
         // Obtener la ubicación actual
-        VillagePtr currentVillage = game->player->currentLocation;
         DungeonPtr currentDungeon = NULL;
 
-        if (inDungeon)
+        if (game->player->inDungeon)
         {
-            currentDungeon = currentVillage->associatedDungeon;
-            printf("\n=== MAZMORRA: %s (%d) ===\n", currentDungeon->name, currentDungeon->id);
+            currentDungeon = game->player->currentLocation->associatedDungeon;
+            printf("\n=== MAZMORRA: %s (%d) ===\n", currentDungeon->name, currentDungeon->id + 1);
         }
         else
         {
-            printf("\n=== ALDEA: %s (%d/%d) ===\n", currentVillage->name, currentVillage->id + 1,
+            printf("\n=== ALDEA: %s (%d/%d) ===\n", game->player->currentLocation->name, game->player->currentLocation->id + 1,
                    numOfVillages);
         }
 
@@ -284,7 +282,7 @@ void play()
         }
 
         // Procesar comando
-        if (inDungeon)
+        if (game->player->inDungeon)
         {
             // Comandos en mazmorra
             if (strcmp(command, "busq") == 0)
@@ -294,6 +292,7 @@ void play()
             else if (strcmp(command, "atac") == 0)
             {
                 bool gameCompleted = attack_dungeon(game, currentDungeon);
+
                 if (gameCompleted)
                 {
                     gameOver = true;
@@ -301,15 +300,15 @@ void play()
             }
             else if (strcmp(command, "ant") == 0)
             {
-                inDungeon = false;
-                printf("Regresas a la aldea %s.\n", currentVillage->name);
+                game->player->inDungeon = false;
+                printf("Regresas a la aldea %s.\n", game->player->currentLocation->name);
             }
             else if (strcmp(command, "sig") == 0)
             {
-                if (currentVillage->next != NULL)
+                if (game->player->currentLocation->next != NULL)
                 {
-                    inDungeon = false;
-                    move_player(game, currentVillage->next);
+                    game->player->inDungeon = false;
+                    move_player(game, game->player->currentLocation->next);
                 }
                 else
                 {
@@ -334,12 +333,12 @@ void play()
             // Comandos en aldea
             if (strcmp(command, "busq") == 0)
             {
-                search_village(currentVillage);
+                search_village(game->player->currentLocation);
             }
             else if (strcmp(command, "maz") == 0)
             {
-                printf("Te diriges a la mazmorra %s...\n", currentVillage->associatedDungeon->name);
-                inDungeon = true;
+                printf("Te diriges a la mazmorra %s...\n", game->player->currentLocation->associatedDungeon->name);
+                game->player->inDungeon = true;
             }
             else if (strcmp(command, "compr") == 0)
             {
@@ -349,9 +348,9 @@ void play()
             {
                 if (game->parallelWorldUnlocked && game->player->canTravelBetweenWorlds)
                 {
-                    if (currentVillage->counterpart != NULL)
+                    if (game->player->currentLocation->counterpart != NULL)
                     {
-                        game->player->currentLocation = currentVillage->counterpart;
+                        game->player->currentLocation = game->player->currentLocation->counterpart;
                         printf("Te has transportado al mundo %s.\n",
                                game->upperWorld->isParallel ? "superior" : "paralelo");
                     }
@@ -367,9 +366,9 @@ void play()
             }
             else if (strcmp(command, "ant") == 0)
             {
-                if (currentVillage->previous != NULL)
+                if (game->player->currentLocation->previous != NULL)
                 {
-                    move_player(game, currentVillage->previous);
+                    move_player(game, game->player->currentLocation->previous);
                 }
                 else
                 {
@@ -378,9 +377,9 @@ void play()
             }
             else if (strcmp(command, "sig") == 0)
             {
-                if (currentVillage->next != NULL)
+                if (game->player->currentLocation->next != NULL)
                 {
-                    move_player(game, currentVillage->next);
+                    move_player(game, game->player->currentLocation->next);
                 }
                 else
                 {
