@@ -24,5 +24,7 @@ int readNumOfVillages()
         valid = is_number(input);
     } while (!valid);
 
-    return atoi(input);
+    int result = atoi(input);
+    free(input);
+    return result;
 }
