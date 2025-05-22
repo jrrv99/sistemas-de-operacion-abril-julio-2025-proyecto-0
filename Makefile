@@ -17,7 +17,6 @@ SRCS = $(SRC_DIR)/main.c \
        $(GAME_DIR)/player/Player.c \
        $(GAME_DIR)/world/dungeon/Dungeon.c \
        $(GAME_DIR)/world/items/Item.c \
-       $(GAME_DIR)/world/items/Location.c \
        $(GAME_DIR)/world/village/Village.c \
        $(GAME_DIR)/world/world.c \
        $(UTILS_DIR)/utils.c

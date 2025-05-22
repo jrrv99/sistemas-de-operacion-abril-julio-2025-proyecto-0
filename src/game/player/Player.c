@@ -7,10 +7,10 @@
 
 PlayerPtr createPlayer(VillagePtr currentVillage)
 {
-    PlayerPtr player = malloc(sizeof(Player));
+    PlayerPtr player = malloc(sizeof(*player));
     if (player == NULL)
     {
-        fprintf(stderr, "Error: Memory allocation failed for player.\n");
+        perror("Error: Memory allocation failed for player.\n");
         exit(EXIT_FAILURE);
     }
     

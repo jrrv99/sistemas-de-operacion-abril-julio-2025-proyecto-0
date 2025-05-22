@@ -14,8 +14,16 @@ WorldPtr createWorld(int numOfVillages, int isParallel, WorldPtr normalWorld)
     }
 
     world->numOfVillages = numOfVillages;
-    world->items = create_item_list(numOfVillages, isParallel); // Initialize items to NULL or allocate as needed
-    world->villages = create_village_list(numOfVillages, isParallel, normalWorld->villages);
+    world->items = create_item_list(numOfVillages, isParallel);
+
+    // Verifica si normalWorld es NULL antes de acceder a sus miembros
+    VillagePtr normalVillages = NULL;
+    if (normalWorld != NULL)
+    {
+        normalVillages = normalWorld->villages;
+    }
+
+    world->villages = create_village_list(numOfVillages, isParallel, normalVillages);
     world->defeatedDungeons = 0;
     world->isParallel = isParallel;
 

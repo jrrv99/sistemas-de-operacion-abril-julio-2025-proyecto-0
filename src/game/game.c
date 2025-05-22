@@ -13,33 +13,21 @@
 int readNumOfVillages()
 {
     char *input = NULL;
-    bool valid = false;
+    bool valid = true;
 
     do
     {
-        if (input != NULL)
+        if (!valid)
         {
-            printf("Entrada inválida. Por favor ingrese un número válido.\n");
-            free(input);
+            clear_screen();
+            printf("Invalid input %s. Please enter a valid number.\n", input);
         }
 
-        printf("Ingrese el número de aldeas a generar: ");
+        printf("Enter the number of villages: ");
+
         input = read_line();
 
-        if (input == NULL)
-        {
-            continue;
-        }
-
         valid = is_number(input);
-        if (valid)
-        {
-            int num = atoi(input);
-            if (num <= 0)
-            {
-                valid = false;
-            }
-        }
     } while (!valid);
 
     int result = atoi(input);
@@ -65,7 +53,7 @@ GameStatePtr initialize_game(int numOfVillages)
     game->player = createPlayer(game->upperWorld->villages);
     game->parallelWorld = NULL;
     game->parallelWorldUnlocked = false;
-    game->villagesToDefeatToUnlock = random_int(1, numOfVillages - 1);
+    game->villagesToDefeatToUnlock = random_int(1, numOfVillages);
 
     return game;
 }
