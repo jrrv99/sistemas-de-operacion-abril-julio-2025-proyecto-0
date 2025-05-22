@@ -238,7 +238,7 @@ void play()
                game->player->lives, game->player->maxLives, game->player->money);
 
         // Mostrar información del mundo
-        if (game->upperWorld->isParallel)
+        if (game->player->currentLocation->isParallelWorld)
         {
             printf("Mundo: Paralelo | ");
         }
