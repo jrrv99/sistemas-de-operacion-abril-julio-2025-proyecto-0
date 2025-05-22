@@ -84,8 +84,8 @@ void assign_items(VillagePtr villages, ItemPtr items)
         currentItem->defeats = firstDungeon;
         firstDungeon->requiredItem = currentItem;
 
-        printf("Ítem %s asignado a la tienda y derrota la mazmorra %s\n",
-               currentItem->name, firstDungeon->name);
+        // printf("Ítem %s asignado a la tienda y derrota la mazmorra %s\n",
+        //        currentItem->name, firstDungeon->name);
 
         // Avanzar al siguiente ítem
         currentItem = currentItem->next;
@@ -103,8 +103,8 @@ void assign_items(VillagePtr villages, ItemPtr items)
             currentItem->location = currentVillage;
             currentItem->found = false;
 
-            printf("Ítem %s asignado a la aldea %s\n",
-                   currentItem->name, currentVillage->name);
+            // printf("Ítem %s asignado a la aldea %s\n",
+            //        currentItem->name, currentVillage->name);
 
             // Avanzar al siguiente ítem
             currentItem = currentItem->next;
@@ -125,8 +125,8 @@ void assign_items(VillagePtr villages, ItemPtr items)
                 currentItem->location = currentDungeon;
                 currentItem->found = false;
 
-                printf("Ítem %s asignado a la mazmorra %s\n",
-                       currentItem->name, currentDungeon->name);
+                // printf("Ítem %s asignado a la mazmorra %s\n",
+                //        currentItem->name, currentDungeon->name);
 
                 // Avanzar al siguiente ítem
                 currentItem = currentItem->next;
@@ -157,8 +157,8 @@ void assign_items(VillagePtr villages, ItemPtr items)
                             itemCursor->defeats = currentDungeon;
                             itemAssigned = true;
 
-                            printf("Mazmorra %s se derrota con el ítem %s\n",
-                                   currentDungeon->name, itemCursor->name);
+                            // printf("Mazmorra %s se derrota con el ítem %s\n",
+                            //        currentDungeon->name, itemCursor->name);
                             break;
                         }
 
@@ -178,8 +178,8 @@ void assign_items(VillagePtr villages, ItemPtr items)
                                 itemCursor->defeats = currentDungeon;
                                 itemAssigned = true;
 
-                                printf("Mazmorra %s se derrota con el ítem %s (asignación forzada)\n",
-                                       currentDungeon->name, itemCursor->name);
+                                // printf("Mazmorra %s se derrota con el ítem %s (asignación forzada)\n",
+                                //        currentDungeon->name, itemCursor->name);
                                 break;
                             }
                             itemCursor = itemCursor->next;

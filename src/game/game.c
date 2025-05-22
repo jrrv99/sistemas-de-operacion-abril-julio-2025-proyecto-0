@@ -194,6 +194,7 @@ void move_player(GameStatePtr game, VillagePtr destination)
  */
 void play()
 {
+    clear_screen();
     printf("¡Bienvenido a Zelda Rogue!\n\n");
 
     int numOfVillages = readNumOfVillages();
