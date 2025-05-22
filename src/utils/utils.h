@@ -11,5 +11,6 @@ char *generateName(
     const char **typeArray, int typeCount,
     const char **nameArray, int nameCount,
     int index);
+void pause(const char *message);
 
 #endif // UTILS_H

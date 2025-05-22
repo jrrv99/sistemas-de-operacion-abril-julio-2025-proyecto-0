@@ -200,6 +200,10 @@ void play()
     int numOfVillages = readNumOfVillages();
     GameStatePtr game = initialize_game(numOfVillages);
 
+    printf("\nDebes derrotar %d mazmorras para desbloquear el mundo paralelo.\n",
+           game->villagesToDefeatToUnlock);
+    pause("Presiona Enter para continuar...");
+
     bool gameOver = false;
     bool inDungeon = false;
 
@@ -245,7 +249,7 @@ void play()
 
         printf("Mazmorras derrotadas: %d/%d\n",
                game->upperWorld->defeatedDungeons,
-               game->upperWorld->numOfVillages);
+               game->villagesToDefeatToUnlock);
 
         if (game->parallelWorldUnlocked)
         {
@@ -256,6 +260,17 @@ void play()
             }
             printf("\n");
         }
+
+        // Calcular el número total de mazmorras
+        int totalDungeons = game->upperWorld->numOfVillages * 2;
+        int defeatedDungeons = game->upperWorld->defeatedDungeons;
+        if (game->parallelWorld != NULL)
+        {
+            defeatedDungeons += game->parallelWorld->defeatedDungeons;
+        }
+        int remainingDungeons = totalDungeons - defeatedDungeons;
+
+        printf("Mazmorras restantes para ganar: %d\n", remainingDungeons);
 
         // Mostrar prompt y leer comando
         printf("\n> ");
@@ -378,13 +393,7 @@ void play()
 
         free(command);
 
-        // Pausa para que el jugador pueda leer los mensajes
-        printf("\nPresiona Enter para continuar...");
-        char *temp = read_line();
-        if (temp != NULL)
-        {
-            free(temp);
-        }
+        pause("Presiona Enter para continuar...");
     }
 
     // Liberar memoria

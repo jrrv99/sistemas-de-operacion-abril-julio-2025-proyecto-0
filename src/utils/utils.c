@@ -109,3 +109,9 @@ char *generateName(
 
     return name;
 }
+
+void pause(const char *message)
+{
+    printf("%s\n", message);
+    getchar();
+}
