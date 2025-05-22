@@ -69,35 +69,37 @@ void test_village_travel(VillagePtr start)
 
 void test_item_lists(ItemPtr itemsList)
 {
-    // ItemPtr parallelList = create_item_list(numOfItems, true);
-
-    // Print normal world items
     printf("=== Normal World Items ===\n");
-    ItemPtr n = itemsList;
-    while (n != NULL)
+    ItemPtr item = itemsList;
+
+    while (item != NULL)
     {
-        printf("Item ID: %d, Name: %s\n", n->id, n->name); // Ajusta según los campos de tu struct Item
-        n = n->next;
+        printf("Item ID: %d, Name: %s, ", item->id, item->name);
+
+        if (item->location == NULL)
+        {
+            printf("🏪 Tienda");
+        }
+        else if (item->locationType == LOCATION_VILLAGE)
+        {
+            printf("🏘️ Aldea: %s", ((Village *)item->location)->name);
+        }
+        else if (item->locationType == LOCATION_DUNGEON)
+        {
+            printf("🕳️ Mazmorra: %s", ((Dungeon *)item->location)->name);
+        }
+
+        printf("\n");
+
+        item = item->next;
     }
-
-    // Print parallel world items
-    // printf("\n=== Parallel World Items ===\n");
-    // ItemPtr p = parallelList;
-    // while (p != NULL)
-    // {
-    //     printf("Item ID: %d, Name: %s\n", p->id, p->name); // Ajusta según los campos de tu struct Item
-    //     p = p->next;
-    // }
-
-    // Liberar memoria
 }
 
 int main()
 {
     srand(time(NULL)); // Inicializa aleatoriedad solo una vez
 
-
-    int numOfVillages = 2; // Number of items to create
+    int numOfVillages = 5; // Number of items to create
     VillagePtr normalHead = create_village_list(numOfVillages, false, NULL);
     VillagePtr parallelHead = create_village_list(numOfVillages, true, normalHead);
 
@@ -115,8 +117,6 @@ int main()
     test_item_lists(itemsList);
     printf("\n");
     test_item_lists(parallelItems);
-
-
 
     return 0;
 }

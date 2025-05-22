@@ -64,114 +64,196 @@ ItemPtr create_item_list(int numOfItems, bool isParallelWorld)
 
 void assign_items(VillagePtr villages, ItemPtr items)
 {
-    // Recorrer las aldeas y mazmorras del mundo normal
-    VillagePtr currentVillage = villages;
-    DungeonPtr currentDungeon;
-    // ItemPtr firstItem = items; // Guardar referencia al primer ítem
+    // Asegurarse de que la semilla aleatoria esté inicializada
+    // (Esto debería hacerse una vez al inicio del programa, no aquí)
 
+    VillagePtr currentVillage = villages;
+    ItemPtr currentItem = items;
+
+    // Primer ítem siempre va a la tienda y derrota la primera mazmorra
+    if (currentItem != NULL && currentVillage != NULL)
+    {
+        DungeonPtr firstDungeon = currentVillage->associatedDungeon;
+
+        // Asignar el primer ítem a la tienda
+        currentItem->locationType = LOCATION_SHOP;
+        currentItem->location = NULL; // La tienda no tiene una ubicación específica
+        currentItem->found = false;
+
+        // Este ítem derrota la primera mazmorra
+        currentItem->defeats = firstDungeon;
+        firstDungeon->requiredItem = currentItem;
+
+        printf("Ítem %s asignado a la tienda y derrota la mazmorra %s\n",
+               currentItem->name, firstDungeon->name);
+
+        // Avanzar al siguiente ítem
+        currentItem = currentItem->next;
+    }
+
+    // Recorrer todas las aldeas
     while (currentVillage != NULL)
     {
-        currentDungeon = currentVillage->associatedDungeon;
+        // Para cada aldea, generar un número aleatorio
+        if (rand() % 2 == 0 && currentItem != NULL)
+        { // Si es par
+            // Asignar un ítem a esta aldea
+            currentVillage->hiddenItem = currentItem;
+            currentItem->locationType = LOCATION_VILLAGE;
+            currentItem->location = currentVillage;
+            currentItem->found = false;
 
-        // 1. Asignar ítem oculto a la aldea (si el número es par)
-        if (rand() % 2 == 0)
-        { // Número par
-            // Buscar un ítem no asignado
-            ItemPtr item = items;
-            while (item != NULL && item->location != NULL)
-            {
-                item = item->next;
-            }
+            printf("Ítem %s asignado a la aldea %s\n",
+                   currentItem->name, currentVillage->name);
 
-            if (item != NULL)
-            {
-                currentVillage->hiddenItem = item;
-                item->location = (struct Location *)currentVillage;
-                printf("Ítem %s asignado a la aldea %s\n", item->name, currentVillage->name);
-            }
+            // Avanzar al siguiente ítem
+            currentItem = currentItem->next;
         }
 
-        // 2. Asignar ítem oculto a la mazmorra (si el número es par)
-        if (rand() % 2 == 0)
-        { // Número par
-            // Buscar un ítem no asignado
-            ItemPtr item = items;
-            while (item != NULL && item->location != NULL)
-            {
-                item = item->next;
+        // Obtener la mazmorra asociada a esta aldea
+        DungeonPtr currentDungeon = currentVillage->associatedDungeon;
+
+        // Para cada mazmorra, generar un número aleatorio
+        if (currentDungeon != NULL && currentDungeon->id > 0)
+        { // Saltamos la primera mazmorra (ya asignada)
+            // Para la mazmorra, generar un número aleatorio
+            if (rand() % 2 == 0 && currentItem != NULL)
+            { // Si es par
+                // Asignar un ítem a esta mazmorra
+                currentDungeon->hiddenItem = currentItem;
+                currentItem->locationType = LOCATION_DUNGEON;
+                currentItem->location = currentDungeon;
+                currentItem->found = false;
+
+                printf("Ítem %s asignado a la mazmorra %s\n",
+                       currentItem->name, currentDungeon->name);
+
+                // Avanzar al siguiente ítem
+                currentItem = currentItem->next;
             }
 
-            if (item != NULL)
+            // Asignar a la mazmorra el ítem que la derrota (si no es la primera)
+            if (currentDungeon->id > 0)
             {
-                currentDungeon->hiddenItem = item;
-                item->location = (struct Location *)currentDungeon;
-                printf("Ítem %s asignado a la mazmorra %s\n", item->name, currentDungeon->name);
-            }
-        }
+                // Recorrer la lista de ítems para asignarle uno al azar
+                bool itemAssigned = false;
+                ItemPtr itemCursor = items;
 
-        // 3. Asignar ítem que derrota la mazmorra
-        if (currentDungeon->id == 0)
-        {
-            // La primera mazmorra se derrota con el ítem que se compra en la tienda
-            ItemPtr firstItem = items; // El primer ítem es el que se compra
-            currentDungeon->requiredItem = firstItem;
-            firstItem->defeats = currentDungeon;
-            printf("Mazmorra %s se derrota con el ítem %s (comprado)\n",
-                   currentDungeon->name, firstItem->name);
-        }
-        else
-        {
-            // Asignar un ítem al azar para derrotar la mazmorra
-            bool itemAssigned = false;
-            ItemPtr item = items;
-
-            while (!itemAssigned)
-            {
-                while (item != NULL)
+                while (!itemAssigned)
                 {
-                    // Si el ítem ya está asignado para derrotar una mazmorra, se salta
-                    if (item->defeats != NULL)
+                    while (itemCursor != NULL)
                     {
-                        item = item->next;
-                        continue;
-                    }
-
-                    // Si el número es par, se asigna a esta mazmorra
-                    if (rand() % 2 == 0)
-                    {
-                        currentDungeon->requiredItem = item;
-                        item->defeats = currentDungeon;
-                        itemAssigned = true;
-                        printf("Mazmorra %s se derrota con el ítem %s\n",
-                               currentDungeon->name, item->name);
-                        break;
-                    }
-
-                    item = item->next;
-                }
-
-                // Si llegamos al final de la lista y no se asignó ítem, volvemos al principio
-                // y asignamos el primer ítem disponible
-                if (!itemAssigned)
-                {
-                    item = items;
-                    while (item != NULL)
-                    {
-                        if (item->defeats == NULL)
+                        // Si el ítem ya está asignado para derrotar una mazmorra, se salta
+                        if (itemCursor->defeats != NULL)
                         {
-                            currentDungeon->requiredItem = item;
-                            item->defeats = currentDungeon;
+                            itemCursor = itemCursor->next;
+                            continue;
+                        }
+
+                        // Si el número aleatorio es par, se asigna a esa mazmorra
+                        if (rand() % 2 == 0)
+                        {
+                            currentDungeon->requiredItem = itemCursor;
+                            itemCursor->defeats = currentDungeon;
                             itemAssigned = true;
-                            printf("Mazmorra %s se derrota con el ítem %s (asignación forzada)\n",
-                                   currentDungeon->name, item->name);
+
+                            printf("Mazmorra %s se derrota con el ítem %s\n",
+                                   currentDungeon->name, itemCursor->name);
                             break;
                         }
-                        item = item->next;
+
+                        itemCursor = itemCursor->next;
+                    }
+
+                    // Si se llega al final de la lista de ítems sin asignar,
+                    // volver a comenzar y asignar el primer ítem disponible
+                    if (!itemAssigned)
+                    {
+                        itemCursor = items;
+                        while (itemCursor != NULL)
+                        {
+                            if (itemCursor->defeats == NULL)
+                            {
+                                currentDungeon->requiredItem = itemCursor;
+                                itemCursor->defeats = currentDungeon;
+                                itemAssigned = true;
+
+                                printf("Mazmorra %s se derrota con el ítem %s (asignación forzada)\n",
+                                       currentDungeon->name, itemCursor->name);
+                                break;
+                            }
+                            itemCursor = itemCursor->next;
+                        }
                     }
                 }
             }
         }
 
+        // Avanzar a la siguiente aldea
         currentVillage = currentVillage->next;
+    }
+
+    // PASO FINAL: Forzar la asignación de ítems que no fueron asignados a ninguna ubicación
+    // (excepto el primer ítem que va a la tienda)
+    ItemPtr item = items->next; // Empezamos desde el segundo ítem
+    while (item != NULL)
+    {
+        // Si el ítem no tiene ubicación y no está en la tienda
+        if (item->location == NULL && item->locationType != LOCATION_SHOP)
+        {
+            // Primero intentamos asignarlo a una aldea sin ítem
+            VillagePtr v = villages;
+            bool assigned = false;
+
+            // Buscar una aldea sin ítem oculto
+            while (v != NULL && !assigned)
+            {
+                if (v->hiddenItem == NULL)
+                {
+                    v->hiddenItem = item;
+                    item->locationType = LOCATION_VILLAGE;
+                    item->location = v;
+                    item->found = false;
+                    assigned = true;
+                    printf("Ítem %s asignado forzadamente a la aldea %s\n",
+                           item->name, v->name);
+                }
+                v = v->next;
+            }
+
+            // Si no encontramos aldea, buscamos una mazmorra sin ítem
+            if (!assigned)
+            {
+                v = villages;
+                while (v != NULL && !assigned)
+                {
+                    DungeonPtr d = v->associatedDungeon;
+                    if (d != NULL && d->hiddenItem == NULL && d->id > 0)
+                    { // Saltamos la primera mazmorra
+                        d->hiddenItem = item;
+                        item->locationType = LOCATION_DUNGEON;
+                        item->location = d;
+                        item->found = false;
+                        assigned = true;
+                        printf("Ítem %s asignado forzadamente a la mazmorra %s\n",
+                               item->name, d->name);
+                    }
+                    v = v->next;
+                }
+            }
+
+            // Si aún no se pudo asignar (todas las ubicaciones tienen ítems),
+            // lo asignamos a la primera aldea (puede tener más de un ítem)
+            if (!assigned)
+            {
+                villages->hiddenItem = item;
+                item->locationType = LOCATION_VILLAGE;
+                item->location = villages;
+                item->found = false;
+                printf("Ítem %s asignado forzadamente a la aldea %s (ya tenía ítem)\n",
+                       item->name, villages->name);
+            }
+        }
+        item = item->next;
     }
 }
