@@ -55,6 +55,14 @@ Para compilar y ejecutar los tests (si tienes implementados en `test.c`):
 make test
 ```
 
+## Clean Up
+
+Para borrar el build
+
+```sh
+make clean
+```
+
 ## Cómo Jugar
 
 Al iniciar el juego, se te pedirá el número de aldeas a generar. El objetivo es derrotar todas las mazmorras de ambos mundos.
