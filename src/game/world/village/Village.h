@@ -3,9 +3,11 @@
 
 #include <stdbool.h>
 
-// Fordward declarations
+// Forward declarations
 struct Dungeon;
 struct Item;
+struct GameState;
+typedef struct GameState *GameStatePtr;
 
 typedef struct Village
 {
@@ -23,5 +25,6 @@ typedef struct Village *VillagePtr;
 
 VillagePtr create_village(int id, bool isParallelWorld, VillagePtr counterpart, VillagePtr previous, VillagePtr next, int numOfVillages);
 VillagePtr create_village_list(int numOfVillages, bool isParallelWorld, VillagePtr normalListHead);
+void search_village(VillagePtr village);
 
 #endif // VILLAGE_H

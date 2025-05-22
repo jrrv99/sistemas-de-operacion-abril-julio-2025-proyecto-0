@@ -6,6 +6,8 @@
 // Fordward declarations
 struct Item;
 struct Village;
+struct GameState;
+typedef struct GameState *GameStatePtr;
 
 typedef struct Dungeon
 {
@@ -21,5 +23,7 @@ typedef struct Dungeon
 typedef struct Dungeon *DungeonPtr;
 
 DungeonPtr create_dungeon(int id, int saltForName);
+void search_dungeon(GameStatePtr game, DungeonPtr dungeon);
+bool attack_dungeon(GameStatePtr game, DungeonPtr dungeon);
 
 #endif // DUNGEON_H

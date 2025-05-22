@@ -13,8 +13,8 @@ typedef struct Player
 {
     int lives;
     int money;
+    bool canTravelBetweenWorlds;
     struct Village *currentLocation;
-    bool parallelWorldUnlocked;
 } Player;
 
 typedef struct Player *PlayerPtr;

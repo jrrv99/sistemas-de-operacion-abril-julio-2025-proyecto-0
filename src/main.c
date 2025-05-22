@@ -1,11 +1,14 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include "game/game.h"
 
 int main()
 {
-    int numOfVillages = readNumOfVillages();
-    printf("Number of villages: %d\n", numOfVillages);
+    srand((unsigned int)time(NULL));
+
+    play();
     
     return 0;
 }

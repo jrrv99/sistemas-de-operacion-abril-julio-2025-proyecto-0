@@ -2,9 +2,9 @@
 #define WORLD_H
 
 // Fordward declarations
-#include "village/Village.h";
-#include "dungeon/Dungeon.h";
-#include "items/Item.h";
+#include "village/Village.h"
+#include "dungeon/Dungeon.h"
+#include "items/Item.h"
 
 typedef struct World
 {

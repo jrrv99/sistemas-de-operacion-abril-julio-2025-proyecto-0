@@ -16,8 +16,8 @@ PlayerPtr createPlayer(VillagePtr currentVillage)
     
     player->lives = INIT_LIVES;
     player->money = 0;
+    player->canTravelBetweenWorlds = false;
     player->currentLocation = currentVillage; // Initialize to NULL or a default location
-    player->parallelWorldUnlocked = 0; // Initialize to 0 (locked)
     
     return player;
 }

@@ -5,6 +5,8 @@
 
 // Fordward declarations
 struct Dungeon;
+struct Village;
+typedef struct Village *VillagePtr;
 
 typedef enum LocationType
 {

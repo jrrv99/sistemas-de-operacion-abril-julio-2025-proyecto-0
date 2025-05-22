@@ -2,8 +2,11 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "../../../utils/utils.h"
+#include "../items/Item.h"
 #include "../dungeon/Dungeon.h"
+#include "../../../utils/utils.h"
+#include "../../../game/game.h"
+
 #include "Village.h"
 
 static const char *DEFAULT_VILLAGE_TYPES[] = {
@@ -103,4 +106,45 @@ VillagePtr create_village_list(int numOfVillages, bool isParallelWorld, VillageP
     }
 
     return head;
+}
+
+/**
+ * Procesa el comando "busq" en una aldea
+ */
+void search_village(VillagePtr village)
+{
+    if (village->hiddenItem != NULL && !village->hiddenItem->found)
+    {
+        printf("¡Has encontrado %s!\n", village->hiddenItem->name);
+        village->hiddenItem->found = true;
+    }
+    else if (village->associatedDungeon->requiredItem != NULL)
+    {
+        // Dar pista sobre el ítem para la mazmorra
+        ItemPtr requiredItem = village->associatedDungeon->requiredItem;
+        if (requiredItem->location != NULL)
+        {
+            if (requiredItem->locationType == LOCATION_VILLAGE)
+            {
+                VillagePtr itemVillage = (VillagePtr)requiredItem->location;
+                printf("El ítem para derrotar la mazmorra %s está en la aldea %s.\n",
+                       village->associatedDungeon->name, itemVillage->name);
+            }
+            else if (requiredItem->locationType == LOCATION_DUNGEON)
+            {
+                DungeonPtr itemDungeon = (DungeonPtr)requiredItem->location;
+                printf("El ítem para derrotar la mazmorra %s está en la mazmorra %s.\n",
+                       village->associatedDungeon->name, itemDungeon->name);
+            }
+        }
+        else if (requiredItem->locationType == LOCATION_SHOP)
+        {
+            printf("El ítem para derrotar la mazmorra %s debe ser comprado en una tienda.\n",
+                   village->associatedDungeon->name);
+        }
+    }
+    else
+    {
+        printf("No encuentras nada útil aquí.\n");
+    }
 }
