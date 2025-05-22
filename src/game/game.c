@@ -227,11 +227,12 @@ void play()
         if (inDungeon)
         {
             currentDungeon = currentVillage->associatedDungeon;
-            printf("\n=== MAZMORRA: %s ===\n", currentDungeon->name);
+            printf("\n=== MAZMORRA: %s (%d) ===\n", currentDungeon->name, currentDungeon->id);
         }
         else
         {
-            printf("\n=== ALDEA: %s ===\n", currentVillage->name);
+            printf("\n=== ALDEA: %s (%d/%d) ===\n", currentVillage->name, currentVillage->id + 1,
+                   numOfVillages);
         }
 
         // Mostrar información del jugador
@@ -394,7 +395,7 @@ void play()
 
         free(command);
 
-        pause("Presiona Enter para continuar...");
+        pause("\nPresiona Enter para continuar...");
     }
 
     // Liberar memoria
