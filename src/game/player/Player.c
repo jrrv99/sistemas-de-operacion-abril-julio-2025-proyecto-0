@@ -1,8 +1,11 @@
-#include "Player.h"
 #include <stdlib.h>
 #include <stdio.h>
 
-PlayerPtr createPlayer()
+#include "../world/village/Village.h"
+
+#include "Player.h"
+
+PlayerPtr createPlayer(VillagePtr currentVillage)
 {
     PlayerPtr player = malloc(sizeof(Player));
     if (player == NULL)
@@ -13,7 +16,7 @@ PlayerPtr createPlayer()
     
     player->lives = INIT_LIVES;
     player->money = 0;
-    player->currentLocation = NULL; // Initialize to NULL or a default location
+    player->currentLocation = currentVillage; // Initialize to NULL or a default location
     player->parallelWorldUnlocked = 0; // Initialize to 0 (locked)
     
     return player;

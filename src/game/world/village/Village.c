@@ -76,8 +76,7 @@ VillagePtr create_village_list(int numOfVillages, bool isParallelWorld, VillageP
             counterpart, // Aldea normal correspondiente
             previous,
             NULL,
-            numOfVillages
-        );
+            numOfVillages);
 
         if (counterpart != NULL)
         {
@@ -91,7 +90,8 @@ VillagePtr create_village_list(int numOfVillages, bool isParallelWorld, VillageP
 
         if (previous != NULL)
         {
-            previous->next = newVillage; // Enlace doble
+            previous->next = newVillage;                                       // Enlace doble
+            previous->associatedDungeon->next = newVillage->associatedDungeon; // Enlace entre mazmorras
         }
 
         previous = newVillage;
